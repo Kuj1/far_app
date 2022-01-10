@@ -1,12 +1,10 @@
-import sqlite3
-
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
 from app import app, db
 from app.forms import LoginForm, RegistrationForm
-from app.models import User
+from app.models import User, CardsRentBr, CardsRentLand, CardsSellBr, CardsSellLand
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -69,42 +67,47 @@ def index():
 @app.route('/cards_rent_br')
 @login_required
 def get_cards_rent_br():
-    con = sqlite3.connect('/Users/vcorvinus/PycharmProjects/far_parsers/data/cards.db')
-    cur = con.cursor()
-    cur.execute('SELECT * FROM cards_rent_br')
-    data = cur.fetchall()
-
-    return render_template('cards_rent_br.html', data=data)
+    page = request.args.get('page', 1, type=int)
+    cards = CardsRentBr.query.order_by(CardsRentBr.date_post.desc())
+    pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('get_cards_rent_br', page=pages.next_num) \
+        if pages.has_next else None
+    prev_url = url_for('get_cards_rent_br', page=pages.prev_num) \
+        if pages.has_prev else None
+    return render_template('cards_rent_br.html', pages=pages, next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/cards_rent_land')
 @login_required
 def get_cards_rent_land():
-    con = sqlite3.connect('/Users/vcorvinus/PycharmProjects/far_parsers/data/cards.db')
-    cur = con.cursor()
-    cur.execute('SELECT * FROM cards_rent_land')
-    data = cur.fetchall()
-
-    return render_template('cards_rent_br.html', data=data)
+    page = request.args.get('page', 1, type=int)
+    cards = CardsRentLand.query.order_by(CardsRentLand.date_post.desc()).paginate(page, app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('get_cards_rent_land', page=cards.next_num) \
+        if cards.has_next else None
+    prev_url = url_for('get_cards_rent_land', page=cards.prev_num) \
+        if cards.has_prev else None
+    return render_template('cards_rent_land.html', cards=cards.items, next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/cards_sell_br')
 @login_required
 def get_cards_sell_br():
-    con = sqlite3.connect('/Users/vcorvinus/PycharmProjects/far_parsers/data/cards.db')
-    cur = con.cursor()
-    cur.execute('SELECT * FROM cards_sell_br')
-    data = cur.fetchall()
-
-    return render_template('cards_sell_br.html', data=data)
+    page = request.args.get('page', 1, type=int)
+    cards = CardsSellBr.query.order_by(CardsSellBr.date_post.desc()).paginate(page, app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('get_cards_sell_br', page=cards.next_num) \
+        if cards.has_next else None
+    prev_url = url_for('get_cards_sell_br', page=cards.prev_num) \
+        if cards.has_prev else None
+    return render_template('cards_sell_br.html', cards=cards.items, next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/cards_sell_land')
 @login_required
 def get_cards_sell_land():
-    con = sqlite3.connect('/Users/vcorvinus/PycharmProjects/far_parsers/data/cards.db')
-    cur = con.cursor()
-    cur.execute('SELECT * FROM cards_sell_land')
-    data = cur.fetchall()
-
-    return render_template('cards_sell_land.html', data=data)
+    page = request.args.get('page', 1, type=int)
+    cards = CardsSellLand.query.order_by(CardsSellLand.date_post.desc()).paginate(page, app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('get_cards_sell_land', page=cards.next_num) \
+        if cards.has_next else None
+    prev_url = url_for('get_cards_sell_land', page=cards.prev_num) \
+        if cards.has_prev else None
+    return render_template('cards_sell_land.html', cards=cards.items, next_url=next_url, prev_url=prev_url)

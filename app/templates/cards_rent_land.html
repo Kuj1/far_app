@@ -2,22 +2,26 @@
 
 {% block content %}
     <h1>Rent Land</h1>
-    {% for card in data %}
+    {% for card in cards %}
     <ul>
         <li>
-            <img style="width: 150px; height: 150px" src="{{ card[4].split('|')[0] }}">
-            <p>{{ card[1] }}</p>
-            <p>{{ card[3] }}</p>
-            <p>{{ card[5] }}</p>
-            <p>{{ card[6] }}</p>
-            <p>{{ card[7] }}</p>
-            <p>{{ card[8] }}</p>
-            <p>{{ card[9] }}</p>
-            <p>{{ card[10] }}</p>
-            <p>{{ card[11] }}</p>
-            <p>{{ card[12] }}</p>
+            <img style="width: 150px; height: 150px" src="{{ card.photo.split('|')[0] }}">
+            <p>{{ card.card_number }}</p>
+            <p>{{ card.title }}</p>
+            <p>{{ card.date_post }}</p>
+            <p>{{ card.author_card }}</p>
+            <p>{{ card.placement }}</p>
+            <p>{{ card.size }}</p>
+            <p>{{ card.price }}</p>
+            <p>{{ card.contacts }}</p>
             <hr>
         </li>
     </ul>
     {% endfor %}
+    {% if prev_url %}
+    <a href="{{ prev_url }}">Newer cards</a>
+    {% endif %}
+    {% if next_url %}
+    <a href="{{ next_url }}">Older cards</a>
+    {% endif %}
 {% endblock %}
