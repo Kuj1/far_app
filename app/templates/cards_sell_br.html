@@ -2,7 +2,22 @@
 
 {% block content %}
     <h1>Sell Business realty</h1>
-    {% for card in cards %}
+    <nav>
+        <ul class="pagination">
+            <li class="{% if not prev_url %} disabled {% endif %}">
+                <a href="{{ prev_url or '#' }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+            </li>
+            {% for page in pages.iter_pages() %}
+                <li class="{% if page == pages.page %} active {% endif %}">
+                    <a href="{{ url_for('get_cards_sell_br')}}?page={{ page }}"> {{ page }} <span class="sr-only">(current)</span></a>
+                </li>
+            {% endfor %}
+            <li class="{% if not next_url %} disabled {% endif %}">
+                <a href="{{ next_url or '#' }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+            </li>
+        </ul>
+    </nav>
+    {% for card in pages.items %}
     <ul>
         <li>
             <img style="width: 150px; height: 150px" src="{{ card.photo.split('|')[0] }}">
@@ -11,7 +26,7 @@
             <p>{{ card.date_post }}</p>
             <p>{{ card.author_card }}</p>
             <p>{{ card.region_address }}</p>
-            <p>{{ cards.street_address }}</p>
+            <p>{{ card.street_address }}</p>
             <p>{{ card.size }}</p>
             <p>{{ card.price }}</p>
             <p>{{ card.contacts }}</p>
@@ -19,10 +34,19 @@
         </li>
     </ul>
     {% endfor %}
-    {% if prev_url %}
-    <a href="{{ prev_url }}">Newer cards</a>
-    {% endif %}
-    {% if next_url %}
-    <a href="{{ next_url }}">Older cards</a>
-    {% endif %}
+    <nav>
+      <ul class="pagination">
+          <li class="previous{% if not prev_url %} disabled {% endif %}">
+            <a href="{{ prev_url or '#' }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+          </li>
+          {% for page in pages.iter_pages() %}
+              <li class="{% if page == pages.page %} active {% endif %}">
+                  <a href="{{ url_for('get_cards_sell_br')}}?page={{ page }}"> {{ page }} <span class="sr-only">(current)</span></a>
+              </li>
+          {% endfor %}
+          <li class="next{% if not next_url %} disabled {% endif %}">
+              <a href="{{ next_url or '#' }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+          </li>
+      </ul>
+    </nav>
 {% endblock %}

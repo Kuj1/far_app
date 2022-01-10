@@ -3,30 +3,52 @@
     {% block title %}
         {% if title %}Far Posts - {{ title }}{% else %}Welcome to Far Posts{% endif %}
     {% endblock %}
-<body>
-    <div>
-        Far Posts:
-        <a style="padding-right: 30px" href='{{ url_for("index") }}'>Homepage</a>
-        {% if current_user.is_anonymous %}
-        <a href='{{ url_for("login") }}'>Login</a>
-        {% else %}
-        <a href='{{ url_for("get_cards_rent_br")}}'>Rent business realty</a>
-        <a href='{{ url_for("get_cards_sell_br")}}'>Sell business realty</a>
-        <a href='{{ url_for("get_cards_rent_land")}}'>Rent land</a>
-        <a href='{{ url_for("get_cards_sell_land")}}'>Sell land</a>
-        <a style="padding-left: 30px" href='{{ url_for("logout") }}'>Logout</a>
-        {% endif %}
-    </div>
-    <hr>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
-    {% block content %}{% endblock %}
-</body>
-</html>
+
+    {% block navbar %}
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href='{{ url_for("get_cards_rent_br") }}'>Far Posts</a>
+            </div>
+
+            {% if current_user.is_anonymous %}
+            <!--     nothing       -->
+            {% else %}
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href='{{ url_for("get_cards_rent_br")}}'>Аренда нежилых помещений</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href='{{ url_for("get_cards_sell_br")}}'>Продажа нежилых помещений</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href='{{ url_for("get_cards_rent_land")}}'>Аренда земли</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href='{{ url_for("get_cards_sell_land")}}'>Продажа земли</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <form class="navbar-form navbar-left">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a style="padding-left: 30px" href='{{ url_for("logout") }}'>Logout</a></li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+            {% endif %}
+          </div><!-- /.container-fluid -->
+        </nav>
+        {% block app_content %}{% endblock %}
+    {% endblock %}

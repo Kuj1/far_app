@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
-{% block content %}
-    <h1>File Not Found</h1>
-    <p><a href='{{ url_for("index") }}'><- Back</a></p>
+{% block app_content %}
+    <div class="container">
+        <div class="panel panel-danger">
+            <p class="panel-heading" style="font-size: 25px">File Not Found</p>
+            <p class="panel-body">Something goes wrong. The administrator has been notified.</p>
+            <p class="panel-body">Sorry about that...</p>
+        </div>
+        <a type="button" class="btn btn-default" href='{{ url_for("get_cards_rent_br") }}'>Back</a>
+    </div>
 {% endblock %}
