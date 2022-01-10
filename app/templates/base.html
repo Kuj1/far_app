@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+    <title>Far Posts - {{ title }}</title>
+    {% else %}
+    <title>Welcome to Far Posts</title>
+    {% endif %}
+</head>
+<body>
+    <div>
+        Far Posts:
+        <a style="padding-right: 30px" href='{{ url_for("index") }}'>Homepage</a>
+        {% if current_user.is_anonymous %}
+        <a href='{{ url_for("login") }}'>Login</a>
+        {% else %}
+        <a href='{{ url_for("get_cards_rent_br")}}'>Rent business realty</a>
+        <a href='{{ url_for("get_cards_sell_br")}}'>Sell business realty</a>
+        <a href='{{ url_for("get_cards_rent_land")}}'>Rent land</a>
+        <a href='{{ url_for("get_cards_sell_land")}}'>Sell land</a>
+        <a style="padding-left: 30px" href='{{ url_for("logout") }}'>Logout</a>
+        {% endif %}
+    </div>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</body>
+</html>

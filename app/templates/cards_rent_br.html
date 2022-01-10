@@ -1,0 +1,23 @@
+{% extends 'base.html'%}
+
+{% block content %}
+    <h1>Rent Business realty</h1>
+    {% for card in data %}
+    <ul>
+        <li>
+            <img style="width: 150px; height: 150px" src="{{ card[4].split('|')[0] }}">
+            <p>{{ card[1] }}</p>
+            <p>{{ card[3] }}</p>
+            <p>{{ card[5] }}</p>
+            <p>{{ card[6] }}</p>
+            <p>{{ card[7] }}</p>
+            <p>{{ card[8] }}</p>
+            <p>{{ card[9] }}</p>
+            <p>{{ card[10] }}</p>
+            <p>{{ card[11] }}</p>
+            <p>{{ card[12] }}</p>
+            <hr>
+        </li>
+    </ul>
+    {% endfor %}
+{% endblock %}
