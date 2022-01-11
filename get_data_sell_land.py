@@ -153,7 +153,7 @@ def get_data(url):
                 contacts_raw = info.find('div', class_='new-contacts dummy-listener_new-contacts').text.replace('\t',
                                                                                                 '').replace('\n', ' ')
                 # Add data in DB
-                card = CardsSellLand(card_number=card_number_raw, section=section_raw, title=title_raw,
+                card = CardsSellLand(link_obj=card_page, card_number=card_number_raw, section=section_raw, title=title_raw,
                                      photo=photo_raw, date_post=date_post_raw,
                                      author_card=author_card_raw, placement=placement_raw,
                                      size=size_raw, price=price_raw, price_for_what=price_for_what_raw,

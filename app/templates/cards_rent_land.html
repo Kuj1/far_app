@@ -10,9 +10,15 @@
                     <a href="{{ prev_url or '#' }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
                 </li>
                 {% for page in pages.iter_pages() %}
-                    <li class="{% if page == pages.page %} active {% endif %}">
-                        <a href="{{ url_for('get_cards_rent_land')}}?page={{ page }}"> {{ page }} <span class="sr-only">(current)</span></a>
-                    </li>
+                    {% if page != None %}
+                        <li class="{% if page == pages.page %} active {% endif %}">
+                            <a href="{{ url_for('get_cards_rent_land')}}?page={{ page }}"> {{ page }} <span class="sr-only">(current)</span></a>
+                        </li>
+                    {% else %}
+                        <li class="disabled">
+                            <a href="#"> ... <span class="sr-only">(current)</span></a>
+                        </li>
+                    {% endif %}
                 {% endfor %}
                 <li class="{% if not next_url %} disabled {% endif %}">
                     <a href="{{ next_url or '#' }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
@@ -103,9 +109,15 @@
                 <a href="{{ prev_url or '#' }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
               </li>
               {% for page in pages.iter_pages() %}
-                  <li class="{% if page == pages.page %} active {% endif %}">
-                      <a href="{{ url_for('get_cards_rent_land')}}?page={{ page }}"> {{ page }} <span class="sr-only">(current)</span></a>
-                  </li>
+                    {% if page != None %}
+                        <li class="{% if page == pages.page %} active {% endif %}">
+                            <a href="{{ url_for('get_cards_rent_land')}}?page={{ page }}"> {{ page }} <span class="sr-only">(current)</span></a>
+                        </li>
+                    {% else %}
+                        <li class="disabled">
+                            <a href="#"> ... <span class="sr-only">(current)</span></a>
+                        </li>
+                    {% endif %}
               {% endfor %}
               <li class="next{% if not next_url %} disabled {% endif %}">
                   <a href="{{ next_url or '#' }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>

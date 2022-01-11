@@ -122,7 +122,7 @@ def get_data(url):
                                             '').replace('\n', ' ')
 
                 # Add data in DB
-                card = CardsSellBr(card_number=card_number_raw, section=section_raw, title=title_raw,
+                card = CardsSellBr(link_obj=card_page, card_number=card_number_raw, section=section_raw, title=title_raw,
                                    photo=photo_raw, date_post=date_post_raw,
                                    author_card=author_card_raw, region_address=region_address_raw,
                                    street_address=street_address_raw,
