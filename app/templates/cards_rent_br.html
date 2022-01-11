@@ -1,52 +1,89 @@
 {% extends 'base.html'%}
 
 {% block content %}
-    <h1>Rent Business realty</h1>
-    <nav>
-        <ul class="pagination">
-            <li class="{% if not prev_url %} disabled {% endif %}">
-                <a href="{{ prev_url or '#' }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-            </li>
-            {% for page in pages.iter_pages() %}
-                <li class="{% if page == pages.page %} active {% endif %}">
-                    <a href="{{ url_for('get_cards_rent_br')}}?page={{ page }}"> {{ page }} <span class="sr-only">(current)</span></a>
+    <link href="{{ url_for('static', filename='css/cards.css') }}" rel='stylesheet' type='text/css' />
+    <div class="container-fluid">
+        <h2 class="cat_title"><span class="label label-success">Rent</span>Business realty</h2>
+        <nav class="nav_pagination">
+            <ul class="pagination">
+                <li class="{% if not prev_url %} disabled {% endif %}">
+                    <a href="{{ prev_url or '#' }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
                 </li>
-            {% endfor %}
-            <li class="{% if not next_url %} disabled {% endif %}">
-                <a href="{{ next_url or '#' }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-            </li>
-        </ul>
-    </nav>
-    {% for card in pages.items %}
-    <ul>
-        <li>
-            <img style="width: 150px; height: 150px" src="{{ card.photo.split('|')[0] }}">
-            <p>{{ card.card_number }}</p>
-            <p>{{ card.title }}</p>
-            <p>{{ card.date_post }}</p>
-            <p>{{ card.author_card }}</p>
-            <p>{{ card.region_address }}</p>
-            <p>{{ card.street_address }}</p>
-            <p>{{ card.size }}</p>
-            <p>{{ card.price }}</p>
-            <p>{{ card.contacts }}</p>
-            <hr>
-        </li>
-    </ul>
-    {% endfor %}
-    <nav>
-      <ul class="pagination">
-          <li class="previous{% if not prev_url %} disabled {% endif %}">
-            <a href="{{ prev_url or '#' }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-          </li>
-          {% for page in pages.iter_pages() %}
-              <li class="{% if page == pages.page %} active {% endif %}">
-                  <a href="{{ url_for('get_cards_rent_br')}}?page={{ page }}"> {{ page }} <span class="sr-only">(current)</span></a>
+                {% for page in pages.iter_pages() %}
+                    <li class="{% if page == pages.page %} active {% endif %}">
+                        <a href="{{ url_for('get_cards_rent_br')}}?page={{ page }}"> {{ page }} <span class="sr-only">(current)</span></a>
+                    </li>
+                {% endfor %}
+                <li class="{% if not next_url %} disabled {% endif %}">
+                    <a href="{{ next_url or '#' }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                </li>
+            </ul>
+        </nav>
+        <div class="row">
+            <div class="cards_container">
+                <ul class="cards_list">
+                    {% for card in pages.items %}
+                    <li class="card_item">
+                        <div class="info_container">
+                            <div class="top_info">
+                                <span class="label label-info card_number">№{{ card.card_number }}</span>
+                                <span class="label label-warning card_date">{{ card.date_post }}</span>
+                            </div>
+                            <p class="card_title">{{ card.title }}</p>
+
+                            {% if card.price != 'Нет данных' %}
+                                <div class="card_price_container">
+                                    <p class="card_price">{{ card.price }} &#8381;</p>
+                                    <p>{{ card.price_for_what }}</p>
+                                </div>
+                            {% endif %}
+
+                            <p class="label label-primary card_author">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ card.author_card }}
+                            </p>
+                            <p class="contacts_label"><strong>Контакты:</strong></p>
+                            <div class="contacts_container alert alert-warning">
+                                {% for c in card.contacts.split('  ') %}
+                                <p class="card_contacts">{{ c.replace('*', '').strip()}}</p>
+                                {% endfor %}
+                            </div>
+                            {% if card.region_address != 'Нет данных' %}
+                                <p class="card_exs"><strong>Район:</strong> {{ card.region_address }}</p>
+                            {% endif %}
+
+                            {% if card.street_address != 'Нет данных' %}
+                                <p class="card_exs"><strong>Улица:</strong> {{ card.street_address }}</p>
+                            {% endif %}
+
+                            {% if card.region_address != 'Нет данных' %}
+                                <p class="card_exs"><strong>Общая площадь:</strong> {{ card.size }} ( м&#178; )</p>
+                            {% endif %}
+                        </div>
+                        <div class="card_img_wrap">
+                            <a href="#">
+                                <img class="card_img" src="{{ card.photo.split('|')[0] }}" alt="Sorry, no photo">
+                            </a>
+                        </div>
+                        <hr>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <nav class="nav_pagination">
+          <ul class="pagination">
+              <li class="previous{% if not prev_url %} disabled {% endif %}">
+                <a href="{{ prev_url or '#' }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
               </li>
-          {% endfor %}
-          <li class="next{% if not next_url %} disabled {% endif %}">
-              <a href="{{ next_url or '#' }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-          </li>
-      </ul>
-    </nav>
+              {% for page in pages.iter_pages() %}
+                  <li class="{% if page == pages.page %} active {% endif %}">
+                      <a href="{{ url_for('get_cards_rent_br')}}?page={{ page }}"> {{ page }} <span class="sr-only">(current)</span></a>
+                  </li>
+              {% endfor %}
+              <li class="next{% if not next_url %} disabled {% endif %}">
+                  <a href="{{ next_url or '#' }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+              </li>
+          </ul>
+        </nav>
+    </div>
 {% endblock %}

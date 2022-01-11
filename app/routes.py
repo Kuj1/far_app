@@ -22,12 +22,14 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('get_cards_rent_br')
         return redirect(next_page)
+
     return render_template('login.html', title='Sign In', form=form)
 
 
 @app.route('/logout')
 def logout():
     logout_user()
+
     return redirect(url_for('get_cards_rent_br'))
 
 
@@ -43,65 +45,139 @@ def register():
         db.session.commit()
         flash("Congratulations, now you're one of us!")
         return redirect(url_for('login'))
+
     return render_template('register.html', title='Registration', form=form)
-
-
-# @app.route('/')
-# @app.route('/index')
-# @login_required
-# def index():
-#
-#     return render_template('index.html', title='Homepage', posts=posts)
 
 
 @app.route('/')
 @app.route('/cards_rent_br')
 @login_required
 def get_cards_rent_br():
-    page = request.args.get('page', 1, type=int)
-    cards = CardsRentBr.query.order_by(CardsRentBr.date_post.desc())
-    pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('get_cards_rent_br', page=pages.next_num) \
-        if pages.has_next else None
-    prev_url = url_for('get_cards_rent_br', page=pages.prev_num) \
-        if pages.has_prev else None
-    return render_template('cards_rent_br.html', pages=pages, next_url=next_url, prev_url=prev_url)
+    search = request.args.get('search')
+
+    if search:
+        search = request.args.get('search').strip()
+        page = request.args.get('page', 1, type=int)
+        cards = CardsRentBr.query.filter(
+            CardsRentBr.title.contains(search) | CardsRentBr.contacts.contains(search) |
+            CardsRentBr.author_card.contains(search) | CardsRentBr.region_address.contains(search) |
+            CardsRentBr.street_address.contains(search)
+        )
+        pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
+        next_url = url_for('get_cards_rent_br', page=pages.next_num) \
+            if pages.has_next else None
+        prev_url = url_for('get_cards_rent_br', page=pages.prev_num) \
+            if pages.has_prev else None
+
+        return render_template('cards_rent_br.html', pages=pages, next_url=next_url, prev_url=prev_url)
+
+    else:
+        page = request.args.get('page', 1, type=int)
+        cards = CardsRentBr.query.order_by(CardsRentBr.date_post.desc())
+        pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
+        next_url = url_for('get_cards_rent_br', page=pages.next_num) \
+            if pages.has_next else None
+        prev_url = url_for('get_cards_rent_br', page=pages.prev_num) \
+            if pages.has_prev else None
+
+        return render_template('cards_rent_br.html', pages=pages, next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/cards_rent_land')
 @login_required
 def get_cards_rent_land():
-    page = request.args.get('page', 1, type=int)
-    cards = CardsRentLand.query.order_by(CardsRentLand.date_post.desc())
-    pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('get_cards_rent_land', page=pages.next_num) \
-        if pages.has_next else None
-    prev_url = url_for('get_cards_rent_land', page=pages.prev_num) \
-        if pages.has_prev else None
-    return render_template('cards_rent_land.html', pages=pages, next_url=next_url, prev_url=prev_url)
+    search = request.args.get('search')
+
+    if search:
+        search = request.args.get('search').strip()
+        page = request.args.get('page', 1, type=int)
+        cards = CardsRentLand.query.filter(
+            CardsRentLand.title.contains(search) | CardsRentLand.contacts.contains(search) |
+            CardsRentLand.author_card.contains(search) | CardsRentLand.placement.contains(search) |
+            CardsRentLand.water.contains(search) | CardsRentLand.electricity.contains(search) |
+            CardsRentLand.roads.contains(search)
+        )
+        pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
+        next_url = url_for('get_cards_rent_land', page=pages.next_num) \
+            if pages.has_next else None
+        prev_url = url_for('get_cards_rent_land', page=pages.prev_num) \
+            if pages.has_prev else None
+
+        return render_template('cards_rent_land.html', pages=pages, next_url=next_url, prev_url=prev_url)
+
+    else:
+        page = request.args.get('page', 1, type=int)
+        cards = CardsRentLand.query.order_by(CardsRentLand.date_post.desc())
+        pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
+        next_url = url_for('get_cards_rent_land', page=pages.next_num) \
+            if pages.has_next else None
+        prev_url = url_for('get_cards_rent_land', page=pages.prev_num) \
+            if pages.has_prev else None
+
+        return render_template('cards_rent_land.html', pages=pages, next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/cards_sell_br')
 @login_required
 def get_cards_sell_br():
-    page = request.args.get('page', 1, type=int)
-    cards = CardsSellBr.query.order_by(CardsSellBr.date_post.desc())
-    pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('get_cards_sell_br', page=pages.next_num) \
-        if pages.has_next else None
-    prev_url = url_for('get_cards_sell_br', page=pages.prev_num) \
-        if pages.has_prev else None
-    return render_template('cards_sell_br.html', pages=pages, next_url=next_url, prev_url=prev_url)
+    search = request.args.get('search')
+
+    if search:
+        search = request.args.get('search').strip()
+        page = request.args.get('page', 1, type=int)
+        cards = CardsSellBr.query.filter(
+            CardsSellBr.title.contains(search) | CardsSellBr.contacts.contains(search) |
+            CardsSellBr.author_card.contains(search) | CardsSellBr.region_address.contains(search) |
+            CardsSellBr.street_address.contains(search)
+        )
+        pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
+        next_url = url_for('get_cards_sell_br', page=pages.next_num) \
+            if pages.has_next else None
+        prev_url = url_for('get_cards_sell_br', page=pages.prev_num) \
+            if pages.has_prev else None
+
+        return render_template('cards_sell_br.html', pages=pages, next_url=next_url, prev_url=prev_url)
+
+    else:
+        page = request.args.get('page', 1, type=int)
+        cards = CardsSellBr.query.order_by(CardsSellBr.date_post.desc())
+        pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
+        next_url = url_for('get_cards_sell_br', page=pages.next_num) \
+            if pages.has_next else None
+        prev_url = url_for('get_cards_sell_br', page=pages.prev_num) \
+            if pages.has_prev else None
+
+        return render_template('cards_sell_br.html', pages=pages, next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/cards_sell_land')
 @login_required
 def get_cards_sell_land():
-    page = request.args.get('page', 1, type=int)
-    cards = CardsSellLand.query.order_by(CardsSellLand.date_post.desc())
-    pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('get_cards_sell_land', page=pages.next_num) \
-        if pages.has_next else None
-    prev_url = url_for('get_cards_sell_land', page=pages.prev_num) \
-        if pages.has_prev else None
-    return render_template('cards_sell_land.html', pages=pages, next_url=next_url, prev_url=prev_url)
+    search = request.args.get('search')
+
+    if search:
+        search = request.args.get('search').strip()
+        page = request.args.get('page', 1, type=int)
+        cards = CardsSellLand.query.filter(
+            CardsSellLand.title.contains(search) | CardsSellLand.contacts.contains(search) |
+            CardsSellLand.author_card.contains(search) | CardsSellLand.placement.contains(search) |
+            CardsSellLand.water.contains(search) | CardsSellLand.electricity.contains(search) |
+            CardsSellLand.roads.contains(search)
+        )
+        pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
+        next_url = url_for('get_cards_sell_land', page=pages.next_num) \
+            if pages.has_next else None
+        prev_url = url_for('get_cards_sell_land', page=pages.prev_num) \
+            if pages.has_prev else None
+
+        return render_template('cards_sell_land.html', pages=pages, next_url=next_url, prev_url=prev_url)
+
+    else:
+        page = request.args.get('page', 1, type=int)
+        cards = CardsSellLand.query.order_by(CardsSellLand.date_post.desc())
+        pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
+        next_url = url_for('get_cards_sell_land', page=pages.next_num) \
+            if pages.has_next else None
+        prev_url = url_for('get_cards_sell_land', page=pages.prev_num) \
+            if pages.has_prev else None
+        return render_template('cards_sell_land.html', pages=pages, next_url=next_url, prev_url=prev_url)
