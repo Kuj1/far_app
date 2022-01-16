@@ -258,6 +258,7 @@
 
     .info_container {
         display: flex;
+        text-align: center;
         align-items: center;
     }
 
@@ -277,11 +278,11 @@
     }
 
     .card_author {
-        font-size: 15px;
+        font-size: 10px;
     }
 
     .contacts_label {
-        font-size: 15px
+        font-size: 15px;
     }
 
     .contacts_container {
