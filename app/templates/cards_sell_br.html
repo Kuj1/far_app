@@ -34,8 +34,9 @@
                             <div class="top_info">
                                 <span class="label label-info card_number">№{{ card.card_number }}</span>
                                 <span class="label label-warning card_date">{{ card.date_post }}</span>
+                                <span class="label label-primary card_date"><span class="glyphicon glyphicon-eye-open eye_open" aria-hidden="true"></span>{{ card.views_info }}</span>
                             </div>
-                            <p class="card_title">{{ card.title }}</p>
+                            <p class="card_title"><a href="{{ card.link_obj }}">{{ card.title }}</a></p>
 
                             {% if card.price != 'Нет данных' %}
                                 <div class="card_price_container">

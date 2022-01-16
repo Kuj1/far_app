@@ -58,6 +58,7 @@ def get_data(url):
             # Get completely page
             for check_link in all_cards:
                 card_link = check_link.find('a', class_='bulletinLink bull-item__self-link auto-shy').get('href')
+                views_info = check_link.find('span', class_='views nano-eye-text').text.strip()
                 card_page = f'https://www.farpost.ru{card_link}'
 
                 time.sleep(random.randint(30, 60))
@@ -122,7 +123,7 @@ def get_data(url):
                                             '').replace('\n', ' ')
 
                 # Add data in DB
-                card = CardsSellBr(link_obj=card_page, card_number=card_number_raw, section=section_raw, title=title_raw,
+                card = CardsSellBr(link_obj=card_page, views_info=views_info, card_number=card_number_raw, section=section_raw, title=title_raw,
                                    photo=photo_raw, date_post=date_post_raw,
                                    author_card=author_card_raw, region_address=region_address_raw,
                                    street_address=street_address_raw,

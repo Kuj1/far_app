@@ -20,6 +20,7 @@ class User(UserMixin, db.Model):
 class CardsSellBr(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     link_obj = db.Column(db.String)
+    views_info = db.Column(db.Integer)
     card_number = db.Column(db.Integer, unique=True, sqlite_on_conflict_unique='REPLACE')
     section = db.Column(db.String)
     title = db.Column(db.String)
@@ -36,6 +37,7 @@ class CardsSellBr(db.Model):
 class CardsRentBr(db.Model):
     card_id = db.Column(db.Integer, primary_key=True)
     link_obj = db.Column(db.String)
+    views_info = db.Column(db.Integer)
     card_number = db.Column(db.Integer, unique=True, sqlite_on_conflict_unique='REPLACE')
     section = db.Column(db.String)
     title = db.Column(db.String)
@@ -53,6 +55,7 @@ class CardsRentBr(db.Model):
 class CardsSellLand(db.Model):
     card_id = db.Column(db.Integer, primary_key=True)
     link_obj = db.Column(db.String)
+    views_info = db.Column(db.Integer)
     card_number = db.Column(db.Integer, unique=True, sqlite_on_conflict_unique='REPLACE')
     section = db.Column(db.String)
     title = db.Column(db.String)
@@ -76,6 +79,7 @@ class CardsSellLand(db.Model):
 class CardsRentLand(db.Model):
     card_id = db.Column(db.Integer, primary_key=True)
     link_obj = db.Column(db.String)
+    views_info = db.Column(db.Integer)
     card_number = db.Column(db.Integer, unique=True, sqlite_on_conflict_unique='REPLACE')
     section = db.Column(db.String)
     title = db.Column(db.String)
