@@ -61,7 +61,7 @@ def get_cards_rent_br():
         cards = CardsRentBr.query.filter(
             CardsRentBr.title.contains(search) | CardsRentBr.contacts.contains(search) |
             CardsRentBr.author_card.contains(search) | CardsRentBr.region_address.contains(search) |
-            CardsRentBr.street_address.contains(search)
+            CardsRentBr.street_address.contains(search) | CardsRentBr.card_number.contains(search)
         )
         pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
         next_url = url_for('get_cards_rent_br', page=pages.next_num) \
@@ -73,7 +73,7 @@ def get_cards_rent_br():
 
     else:
         page = request.args.get('page', 1, type=int)
-        cards = CardsRentBr.query.order_by(CardsRentBr.date_post.desc())
+        cards = CardsRentBr.query.order_by(CardsRentBr.card_id.desc())
         pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
         next_url = url_for('get_cards_rent_br', page=pages.next_num) \
             if pages.has_next else None
@@ -81,6 +81,13 @@ def get_cards_rent_br():
             if pages.has_prev else None
 
         return render_template('cards_rent_br.html', pages=pages, next_url=next_url, prev_url=prev_url)
+
+
+@app.route('/cards_rent_br/<card_number>')
+@login_required
+def cards_rent_br_extend(card_number):
+    card = CardsRentBr.query.filter_by(card_number=card_number).first_or_404()
+    return render_template('cards_rent_br_extend.html', card=card)
 
 
 @app.route('/cards_rent_land')

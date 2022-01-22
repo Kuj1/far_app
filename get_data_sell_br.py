@@ -4,10 +4,13 @@ import time
 
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
-from selenium import webdriver
+# from selenium import webdriver
+from seleniumwire import webdriver
 from selenium.webdriver.chrome.service import Service
+
 from app.models import CardsSellBr
 from app import db
+from auth import login, password
 
 
 # Constants
@@ -22,9 +25,16 @@ options.add_argument('start-maximized')
 options.add_argument('--headless')
 options.add_argument('--enable-javascript')
 
+# Proxy options (ip:port - personal for each parser)
+proxy_options = {
+    'proxy': {
+        'https': f'http://{login}:{password}@109.248.7.208:11301'
+    }
+}
+
 # Driver initial
 s = Service(f'{os.getcwd()}/chromedriver')
-driver = webdriver.Chrome(service=s, options=options)
+driver = webdriver.Chrome(service=s, options=options, seleniumwire_options=proxy_options)
 
 # Creating directory
 dir_path = f'{os.getcwd()}/data'
@@ -50,8 +60,7 @@ def get_data(url):
 
             card = BeautifulSoup(driver.page_source, 'html.parser')
 
-            all_cards = card.find('table', class_='pageableContent').find_all('tr', class_='-exact bull-item '
-                                                                                           'bull-item_inline')
+            all_cards = card.find('table', class_='pageableContent').find_all('tr', class_='bull-item bull-item_inline -exact bull-item bull-item_inline')
 
             count = 1
 
@@ -61,7 +70,7 @@ def get_data(url):
                 views_info = check_link.find('span', class_='views nano-eye-text').text.strip()
                 card_page = f'https://www.farpost.ru{card_link}'
 
-                time.sleep(random.randint(30, 60))
+                time.sleep(random.randint(10, 15))
                 driver.get(card_page)
 
                 link = BeautifulSoup(driver.page_source, 'html.parser')
@@ -71,7 +80,17 @@ def get_data(url):
 
                 extend_link = f'https://www.farpost.ru{business_real_cards}'
 
-                time.sleep(random.randint(30, 60))
+                try:
+                    photo_gallery = info.find('div', class_='imagesExBig').find_all('img')
+                    photo_urls = []
+                    for link in photo_gallery:
+                        photo_link = link.get('src')
+                        photo_urls.append(photo_link)
+                    photo_raw = ' | '.join(photo_urls)
+                except:
+                    photo_raw = 'Нет данных'
+
+                time.sleep(random.randint(30, 40))
                 driver.get(extend_link)
 
                 with open(f'{dir_path}/card_sell_br.html', 'w', encoding='utf-8') as doc:
@@ -86,16 +105,6 @@ def get_data(url):
                 card_number_raw = info.find('span', class_='viewbull-bulletin-id__num').text.strip().replace('№', '')
                 section_raw = 'Продажа помещений'
                 title_raw = info.find('span', class_='inplace auto-shy').text
-
-                try:
-                    photo_gallery = info.find('div', class_='imagesExBig').find_all('img')
-                    photo_urls = []
-                    for link in photo_gallery:
-                        photo_link = link.get('src')
-                        photo_urls.append(photo_link)
-                    photo_raw = ' | '.join(photo_urls)
-                except:
-                    photo_raw = 'Нет данных'
 
                 date_post_raw = info.find('div', class_='viewbull-actual-date').text
                 author_card_raw = info.find('span', class_='userNick auto-shy').text.strip()
@@ -122,8 +131,14 @@ def get_data(url):
                 contacts_raw = info.find('div', class_='new-contacts dummy-listener_new-contacts').text.replace('\t',
                                             '').replace('\n', ' ')
 
+                try:
+                    card_descr = info.find('p', class_='inplace mod__label_up_down auto-shy').text.strip()
+                except:
+                    card_descr = 'Нет данных'
+
                 # Add data in DB
-                card = CardsSellBr(link_obj=card_page, views_info=views_info, card_number=card_number_raw, section=section_raw, title=title_raw,
+                card = CardsSellBr(link_obj=card_page, views_info=views_info, description=card_descr,
+                                   card_number=card_number_raw, section=section_raw, title=title_raw,
                                    photo=photo_raw, date_post=date_post_raw,
                                    author_card=author_card_raw, region_address=region_address_raw,
                                    street_address=street_address_raw,
