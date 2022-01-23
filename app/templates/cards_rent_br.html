@@ -36,7 +36,6 @@
                                 <span class="label label-warning card_date">{{ card.date_post }}</span>
                                 <span class="label label-primary card_date"><span class="glyphicon glyphicon-eye-open eye_open" aria-hidden="true"></span>{{ card.views_info }}</span>
                             </div>
-<!--                            <p class="card_title"><a href="{{ card.link_obj }}">{{ card.title }}</a></p>-->
                             <p class="card_title"><a href="{{ url_for('cards_rent_br_extend', card_number=card.card_number) }}">{{ card.title }}</a></p>
 
                             {% if card.photo.split('|')[0] != 'Нет данных' %}
