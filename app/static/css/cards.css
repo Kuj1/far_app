@@ -104,6 +104,7 @@
     display: flex;
     justify-content: center;
     margin-bottom: 25px;
+    width: 840px
     max-height: 520px;
 }
 
@@ -153,6 +154,7 @@
 
 .container_more_info_extend {
     display: flex;
+    flex-direction: column;
     margin-bottom: 35px;
 }
 
@@ -268,23 +270,262 @@
 
 .description {
     font-size: 18px;
+    max-width: 90%;
 }
 
 
-@media (max-width: 1600px) {
+@media (max-width: 1920px) and (min-width: 1500px) {
+
+    .cards_list {
+        max-width: 100%;
+    }
 
     .card_item {
         display: flex;
         justify-content: center;
         max-width: 47%;
-        padding: 10px;
+        padding: 25px;
         margin: 15px;
         border-radius: 15px;
     }
 
+    .card_item_extend {
+        width: 98%;
+    }
+
+    .carousel_extend {
+        width: 840px;
+    }
+
+    card_item_extend {
+        width: 98%;
+    }
+
+    .info_container_extend {
+        width: 49%;
+    }
+
+    .container_description {
+        max-width: 90%;
+    }
+
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1500px) and (min-width: 1250px){
+
+     .card_item {
+        display: flex;
+        justify-content: center;
+        max-width: 47%;
+        padding: 25px;
+        margin: 15px;
+        border-radius: 15px;
+    }
+
+     .card_item_extend {
+        width: 98%;
+     }
+
+     .cards_list_extend {
+        width: 90%;
+     }
+
+    .info_container {
+        width: 550px;
+    }
+
+    .container_more_info_extend {
+        display: flex;
+        margin-bottom: 35px;
+        flex-direction: column;
+    }
+
+    .card_img_wrap {
+        width: 550px;
+    }
+
+    .carousel_extend {
+        width: 580px;
+    }
+
+    .contacts_label_extend {
+        font-size: 16px;
+    }
+
+    .container_exs {
+        padding: 10px 0 0 20px;
+    }
+
+    .card_exs_extend {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1250px) and (min-width: 1100px){
+
+     .card_item {
+        display: flex;
+        justify-content: center;
+        max-width: 47%;
+        padding: 25px;
+        margin: 15px;
+        border-radius: 15px;
+    }
+
+    .info_container {
+        width: 500px;
+    }
+
+    .card_item_extend {
+        width: 98%;
+    }
+
+    .card_img_wrap {
+        width: 500px;
+    }
+
+    .contacts_label_extend {
+        font-size: 13px;
+    }
+
+    .container_exs {
+        padding: 10px 0 0 20px;
+    }
+
+    .card_exs_extend {
+        font-size: 13px;
+    }
+
+    .contacts_container {
+        width: 200px;
+    }
+}
+
+@media (max-width: 1100px) and (min-width: 450px) {
+
+     .card_item {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+        padding: 25px;
+        margin: 15px;
+        border-radius: 15px;
+    }
+
+    .card_item_extend {
+        width: 94%;
+    }
+
+    .carousel_extend {
+        width: 500px;
+    }
+
+    .carousel-indicators {
+        width: 57%;
+    }
+
+    .info_container {
+        width: 380px;
+    }
+
+    .card_img_wrap {
+        width: 380px;
+    }
+
+    .contacts_label_extend {
+        font-size: 13px;
+    }
+
+    .container_exs {
+        padding: 10px 0 0 20px;
+    }
+
+    .card_exs_extend {
+        font-size: 13px;
+    }
+
+    .contacts_container {
+        width: 170px;
+    }
+
+    .card_comfort {
+        padding: 36px 0 0 0px;
+    }
+
+    .container_exs_extend {
+        padding: 36px 0 0 0px;
+    }
+
+    .card_exs {
+    font-size: 14px;
+
+    .card_author {
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 450px) {
+
+     .cards_list {
+        width: 100%;
+     }
+
+     .card_item {
+        display: flex;
+        justify-content: center;
+        max-width: 90%;
+        padding: 25px;
+        margin: 15px;
+        border-radius: 15px;
+    }
+
+    .card_title {
+        font-size: 20px;
+    }
+
+    .info_container {
+       width: 300px;
+    }
+
+    .card_number {
+        font-size: 10px;
+    }
+
+    .card_date {
+        font-size: 10px;
+    }
+
+    .card_img_wrap {
+        width: 300px;
+        height: 200px;
+    }
+
+    .contacts_label_extend {
+        font-size: 13px;
+    }
+
+    .container_exs {
+        padding: 10px 0 0 20px;
+    }
+
+    .card_exs_extend {
+        font-size: 13px;
+    }
+
+    .contacts_container {
+        width: 180px;
+    }
+
+    .card_author {
+        margin-bottom: 15px;
+        font-size: 12px;
+    }
+}
+
+
+
+/*@media (max-width: 1100px) {
     .cards-list {
         max-width: 900px;
 
@@ -437,4 +678,4 @@
     hr {
         display: none;
     }
-}
+}*/
