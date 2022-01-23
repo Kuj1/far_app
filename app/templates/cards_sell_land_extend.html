@@ -36,16 +36,41 @@
                                         </div>
                                     </div>
                                     <div class="container_exs_extend">
-                                        {% if card.region_address != 'Нет данных' %}
-                                            <p class="card_exs_extend"><strong>Район:</strong> {{ card.region_address }}</p>
+                                        {% if card.status != 'Нет данных' %}
+                                            <p class="card_exs_extend"><strong>Статус:</strong> {{ card.status }}</p>
                                         {% endif %}
 
-                                        {% if card.street_address != 'Нет данных' %}
-                                            <p class="card_exs_extend"><strong>Улица:</strong> {{ card.street_address }}</p>
+                                        {% if card.restrictions != 'Нет данных' %}
+                                            <p class="card_exs_extend"><strong>Ограничения:</strong> {{ card.restrictions }}</p>
                                         {% endif %}
 
-                                        {% if card.region_address != 'Нет данных' %}
-                                            <p class="card_exs_extend"><strong>Общая площадь:</strong> {{ card.size }} ( м&#178; )</p>
+                                        {% if card.placement != 'Нет данных' %}
+                                            <p class="card_exs_extend"><strong>Расположение:</strong> {{ card.placement }}</p>
+                                        {% endif %}
+
+                                        {% if card.size != 'Нет данных' %}
+                                            <p class="card_exs_extend"><strong>Площадь участка:</strong> {{ card.size }} ( м&#178; )</p>
+                                        {% endif %}
+
+                                        {% if card.cadastr_number_f != 'Нет данных' %}
+                                            {% if card.cadastr_number_f == card.cadastr_number_s%}
+                                                <p class="card_exs_extend"><strong>Кадастровый номер:</strong> {{ card.cadastr_number_f }}</p>
+                                            {% else %}
+                                                <p class="card_exs_extend"><strong>Кадастровые номера:</strong> {{ card.cadastr_number_f }}, {{ card.cadastr_number_s }} </p>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="card_comfort">
+                                        {% if card.electricity != 'Нет данных' %}
+                                            <p class="card_exs"><strong>Электричество</strong></p>
+                                        {% endif %}
+
+                                        {% if card.roads != 'Нет данных' %}
+                                            <p class="card_exs"><strong>Подъездные пути</strong></p>
+                                        {% endif %}
+
+                                        {% if card.water != 'Нет данных' %}
+                                            <p class="card_exs"><strong>Вода</strong></p>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -84,7 +109,7 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 {% endblock %}

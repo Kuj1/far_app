@@ -26,15 +26,15 @@ options.add_argument('--headless')
 options.add_argument('--enable-javascript')
 
 # Proxy options (ip:port - personal for each parser)
-proxy_options = {
-    'proxy': {
-        'https': f'http://{login}:{password}@109.248.7.208:11301'
-    }
-}
+# proxy_options = {
+#     'proxy': {
+#         'https': f'http://{login}:{password}@109.248.7.208:11301'
+#     }
+# }
 
 # Driver initial
 s = Service(f'{os.getcwd()}/chromedriver')
-driver = webdriver.Chrome(service=s, options=options, seleniumwire_options=proxy_options)
+driver = webdriver.Chrome(service=s, options=options) # seleniumwire_options=proxy_options)
 
 # Creating directory
 dir_path = f'{os.getcwd()}/data'

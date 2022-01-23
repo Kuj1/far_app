@@ -73,7 +73,7 @@ def get_cards_rent_br():
 
     else:
         page = request.args.get('page', 1, type=int)
-        cards = CardsRentBr.query.order_by(CardsRentBr.card_id.desc())
+        cards = CardsRentBr.query.order_by(CardsRentBr.date_post.desc())
         pages = cards.paginate(page, app.config['POSTS_PER_PAGE'], False)
         next_url = url_for('get_cards_rent_br', page=pages.next_num) \
             if pages.has_next else None
@@ -124,6 +124,13 @@ def get_cards_rent_land():
         return render_template('cards_rent_land.html', pages=pages, next_url=next_url, prev_url=prev_url)
 
 
+@app.route('/cards_rent_land/<card_number>')
+@login_required
+def cards_rent_land_extend(card_number):
+    card = CardsRentLand.query.filter_by(card_number=card_number).first_or_404()
+    return render_template('cards_rent_land_extend.html', card=card)
+
+
 @app.route('/cards_sell_br')
 @login_required
 def get_cards_sell_br():
@@ -157,6 +164,13 @@ def get_cards_sell_br():
         return render_template('cards_sell_br.html', pages=pages, next_url=next_url, prev_url=prev_url)
 
 
+@app.route('/cards_sell_br/<card_number>')
+@login_required
+def cards_sell_br_extend(card_number):
+    card = CardsSellBr.query.filter_by(card_number=card_number).first_or_404()
+    return render_template('cards_sell_br_extend.html', card=card)
+
+
 @app.route('/cards_sell_land')
 @login_required
 def get_cards_sell_land():
@@ -188,3 +202,10 @@ def get_cards_sell_land():
         prev_url = url_for('get_cards_sell_land', page=pages.prev_num) \
             if pages.has_prev else None
         return render_template('cards_sell_land.html', pages=pages, next_url=next_url, prev_url=prev_url)
+
+
+@app.route('/cards_sell_land/<card_number>')
+@login_required
+def cards_sell_land_extend(card_number):
+    card = CardsSellLand.query.filter_by(card_number=card_number).first_or_404()
+    return render_template('cards_sell_land_extend.html', card=card)
