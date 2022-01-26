@@ -3,7 +3,7 @@
 {% block content %}
     <link href="{{ url_for('static', filename='css/cards.css') }}" rel='stylesheet' type='text/css' v="1"/>
     <div class="container-fluid">
-        <h2 class="cat_title"><span class="label label-success">Rent</span>Business realty</h2>
+        <h2 class="cat_title"><span class="label label-primary">Rent</span>Business realty</h2>
         <nav class="nav_pagination">
             <ul class="pagination">
                 <li class="{% if not prev_url %} disabled {% endif %}">
@@ -30,14 +30,13 @@
                 <ul class="cards_list">
                     {% for card in pages.items %}
                     <li class="card_item">
+                        <div class="top_info">
+                            <span class="label label-info card_number">№{{ card.card_number }}</span>
+                            <span class="label label-warning card_date">{{ card.date_post }}</span>
+                            <span class="label label-primary card_date"><span class="glyphicon glyphicon-eye-open eye_open" aria-hidden="true"></span>{{ card.views_info }}</span>
+                            <a href="#" class="label label-primary card_author"><span class="glyphicon glyphicon-user user" aria-hidden="true"></span>{{ card.author_card }}</a>
+                        </div>
                         <div class="info_container">
-                            <div class="top_info">
-                                <span class="label label-info card_number">№{{ card.card_number }}</span>
-                                <span class="label label-warning card_date">{{ card.date_post }}</span>
-                                <span class="label label-primary card_date"><span class="glyphicon glyphicon-eye-open eye_open" aria-hidden="true"></span>{{ card.views_info }}</span>
-                            </div>
-                            <p class="card_title"><a href="{{ url_for('cards_rent_br_extend', card_number=card.card_number) }}">{{ card.title }}</a></p>
-
                             {% if card.photo.split('|')[0] != 'Нет данных' %}
                                 <div class="card_img_wrap">
                                     <img class="card_img" src="{{ card.photo.split('|')[0] }}" alt="Sorry, no photo">
@@ -47,42 +46,37 @@
                                     <img class="card_img" src="{{ url_for('static', filename='img/no_photo.png') }}" alt="Sorry, no photo">
                                 </div>
                             {% endif %}
+                            <div class="info_wrap">
+                                <p class="card_title"><a href="{{ url_for('cards_rent_br_extend', card_number=card.card_number) }}">{{ card.title }}</a></p>
 
-                            {% if card.price != 'Нет данных' %}
-                                <div class="card_price_container">
-                                    <p class="card_price">{{ card.price }} &#8381;</p>
-                                    <p>{{ card.price_for_what }}</p>
-                                </div>
-                            {% endif %}
+                                <div class="container_more_info">
+                                    <div class="container_exs">
+                                        {% if card.region_address != 'Нет данных' %}
+                                            <p class="card_exs_extend"><strong>Район:</strong><a href="#" class="exs exs_padd">{{ card.region_address }}</a></p>
+                                        {% endif %}
 
-                            <p class="label label-primary card_author">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ card.author_card }}
-                            </p>
-                            <div class="container_more_info">
-                                <div class="container_all_contacts">
-                                    <p class="contacts_label_extend"><strong>Контакты:</strong></p>
-                                    <div class="contacts_container alert alert-warning">
+                                        {% if card.street_address != 'Нет данных' %}
+                                        <p class="card_exs_extend"><strong>Улица:</strong><a href="#" class="exs exs_padd">{{ card.street_address }}</a></p>
+                                        {% endif %}
+
+                                        {% if card.region_address != 'Нет данных' %}
+                                            <p class="card_exs_extend"><strong class="exs_marg">Общая площадь:</strong>{{ card.size }} ( м&#178; )</p>
+                                        {% endif %}
+                                    </div>
+                                    {% if card.price != 'Нет данных' %}
+                                        <div class="card_price_container">
+                                            <p class="card_price">{{ card.price }} &#8381;</p>
+                                            <p>{{ card.price_for_what }}</p>
+                                        </div>
+                                    {% endif %}
+                                    <div class="contacts_container">
                                         {% for c in card.contacts.split('  ') %}
-                                        <p class="card_contacts">{{ c.replace('*', '').strip()}}</p>
+                                            <a href="#" class="card_contacts">{{ c.replace('*', '').strip()}}</a>
                                         {% endfor %}
                                     </div>
                                 </div>
-                                <div class="container_exs">
-                                    {% if card.region_address != 'Нет данных' %}
-                                        <p class="card_exs_extend"><strong>Район:</strong> {{ card.region_address }}</p>
-                                    {% endif %}
-
-                                    {% if card.street_address != 'Нет данных' %}
-                                        <p class="card_exs_extend"><strong>Улица:</strong> {{ card.street_address }}</p>
-                                    {% endif %}
-
-                                    {% if card.region_address != 'Нет данных' %}
-                                        <p class="card_exs_extend"><strong>Общая площадь:</strong> {{ card.size }} ( м&#178; )</p>
-                                    {% endif %}
-                                </div>
                             </div>
                         </div>
-                        <hr>
                     </li>
                     {% endfor %}
                 </ul>
@@ -112,4 +106,5 @@
     </div>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 {% endblock %}
